@@ -57,6 +57,14 @@
               ],
               "outputHashing": "all"
             },
+            "mumbai": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.mumbai.ts"
+                }
+              ]
+            },
             "development": {
               "buildOptimizer": false,
               "optimization": false,
@@ -76,6 +84,9 @@
             },
             "development": {
               "browserTarget": "nfcool-client:build:development"
+            },
+            "mumbai": {
+              "browserTarget": "front-client:build:mumbai"
             }
           },
           "defaultConfiguration": "development"

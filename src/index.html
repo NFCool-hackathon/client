@@ -1,6 +1,16 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <script>
+    var global = global || window; //open this if you take global error
+
+    var process = process || {
+      env: {
+        DEBUG: undefined
+      },
+      version: ''
+    };
+  </script>
   <meta charset="utf-8">
   <title>NfcoolClient</title>
   <base href="/">
