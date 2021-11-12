@@ -1,0 +1,5 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target" : { "namespace": "android_app", "package_name": "xyz.nfcool.app",
+    "sha256_cert_fingerprints": ["B6:DF:A3:3D:6B:66:A6:86:E9:3C:61:63:D5:1C:EF:20:A5:D9:8B:A4:8D:72:96:C7:D1:83:8C:9B:66:FF:EA:64"] }
+}]
