@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "ng mumbai": "ng serve --configuration mumbai",
+    "ng kovan": "ng serve --configuration kovan",
     "eslint": "eslint src/app/**/*",
     "eslint:autofix": "eslint src/app/**/* --fix",
     "start": "ng serve",
