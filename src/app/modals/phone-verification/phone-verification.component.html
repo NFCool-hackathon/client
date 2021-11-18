@@ -1,0 +1,14 @@
+<div class="content">
+    <p>To secure the process, we’re gonna verify the phone number you provided when you bought this item.</p>
+    <div class="button" *ngIf="step === 0">
+      <button class="btn btn-action" (click)="connect()">Connect Wallet</button>
+    </div>
+    <div class="button" *ngIf="step === 1">
+      <button class="btn btn-action" (click)="sendSms()">Sens SMS</button>
+      <span class="link clickable" (click)="nextStep()">I already got my sms</span>
+    </div>
+    <div class="button" *ngIf="step === 2">
+      <input class="input" type="number" [(ngModel)]="pin">
+      <button class="btn btn-action" (click)="verifyPin()">Confirm PIN</button>
+    </div>
+</div>

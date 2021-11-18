@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {environment} from "../../../environments/environment";
-import {createInitialTokenModel, TokenModel} from "../../models/token.model";
-import {createInitialUnitModel, UnitModel} from "../../models/unit.model";
-import {SmartContractService} from "../../core/smart-contract.service";
+import { environment } from '../../../environments/environment';
+import { createInitialTokenModel, TokenModel } from '../../models/token.model';
+import { createInitialUnitModel, UnitModel } from '../../models/unit.model';
+import { SmartContractService } from '../../core/smart-contract.service';
 import { ActivatedRoute } from '@angular/router';
-import {SnackbarService} from "../../core/snackbar.service";
+import { SnackbarService } from '../../core/snackbar.service';
+import { MatDialog } from '@angular/material/dialog';
+import { PhoneVerificationComponent } from '../../modals/phone-verification/phone-verification.component';
 
 @Component({
   selector: 'app-token-unit',
@@ -12,7 +14,6 @@ import {SnackbarService} from "../../core/snackbar.service";
   styleUrls: ['./token-unit.component.scss']
 })
 export class TokenUnitComponent implements OnInit {
-
   tokenId: number = 0;
   unitId: number = 0;
 
@@ -23,7 +24,8 @@ export class TokenUnitComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private smartcontract: SmartContractService,
-              private snackbar: SnackbarService) { }
+              private snackbar: SnackbarService,
+              private dialog: MatDialog) { }
 
   ngOnInit() {
     const tmpTokenId: string | null = this.route.snapshot.paramMap.get('tokenId');
@@ -50,5 +52,9 @@ export class TokenUnitComponent implements OnInit {
         console.error(e);
         this.snackbar.openDanger('An error as occur, please try again later.');
       });
+  }
+
+  openModal() {
+    this.dialog.open(PhoneVerificationComponent, { data: { tokenId: this.tokenId, unitId: this.unitId } });
   }
 }

@@ -3,4 +3,4 @@ export const environment = {
   chainId: 0,
   chainSymbol: 'MATIC',
   contractAddress: ''
-};
+}

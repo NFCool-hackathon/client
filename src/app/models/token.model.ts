@@ -4,6 +4,6 @@ export interface TokenModel {
 }
 
 export const createInitialTokenModel = (): TokenModel => ({
-    uri: '',
-    name: ''
-  });
+  uri: '',
+  name: ''
+});

@@ -3,21 +3,36 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import Web3 from "web3";
+import Web3 from 'web3';
 import { TokenUnitComponent } from './pages/token-unit/token-unit.component';
 import { HomeComponent } from './pages/home/home.component';
-import {MatSnackBarModule} from "@angular/material/snack-bar";
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { PhoneVerificationComponent } from './modals/phone-verification/phone-verification.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { A11yModule } from '@angular/cdk/a11y';
+import { FormsModule } from '@angular/forms';
+import { firebaseConfig } from '../environments/firebase.config';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireFunctionsModule } from '@angular/fire/compat/functions';
 
 @NgModule({
   declarations: [
     AppComponent,
     TokenUnitComponent,
-    HomeComponent
+    HomeComponent,
+    PhoneVerificationComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDialogModule,
+    BrowserAnimationsModule,
+    A11yModule,
+    FormsModule,
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireFunctionsModule
   ],
   providers: [Web3],
   bootstrap: [AppComponent]

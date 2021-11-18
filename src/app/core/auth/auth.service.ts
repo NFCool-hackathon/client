@@ -29,22 +29,27 @@ export class AuthService {
         if (res[0]) {
           this.authStore.account = res[0];
           this.authStore.accountSubject.next(res[0]);
-          this.router.navigate(['/']);
         }
       });
     }
   }
 
-  public connectMetamask(): void {
-    if (this.checkMetamask()) {
-      this.ethereum.request({ method: 'eth_requestAccounts' }).then((res: any) => {
-        if (res[0]) {
-          this.authStore.account = res[0];
-          this.authStore.accountSubject.next(res[0]);
-          this.router.navigate(['/']);
-        }
-      });
-    }
+  public connectMetamask(): Promise<void | string> {
+    return new Promise((resolve, reject) => {
+      if (this.checkMetamask()) {
+        this.ethereum.request({ method: 'eth_requestAccounts' }).then((res: any) => {
+          if (res[0]) {
+            this.authStore.account = res[0];
+            this.authStore.accountSubject.next(res[0]);
+            resolve();
+          } else {
+            reject(new Error('No account provided'))
+          }
+        });
+      } else {
+        reject(new Error('Metamask is not installed'));
+      }
+    });
   }
 
   public disconnect(): void {
@@ -55,7 +60,6 @@ export class AuthService {
     }).then(() => {
       this.authStore.account = '';
       this.authStore.accountSubject.next(this.authStore.account);
-      this.router.navigate(['/login']);
     });
   }
 
