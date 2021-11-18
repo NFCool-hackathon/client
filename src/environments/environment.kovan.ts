@@ -2,5 +2,5 @@ export const environment = {
   production: false,
   chainId: 42,
   chainSymbol: 'ETH',
-  contractAddress: '0xA5284665954a54d12737Da405824160cCE05B0B0'
+  contractAddress: '0xCF04b6864c4356b6924a13724922277dfd1313fc'
 };

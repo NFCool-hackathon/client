@@ -1,0 +1,18 @@
+<div class="page-full-content">
+  <div class="box">
+    <div>
+      <div class="product-image" style="background-image: url('{{token.uri}}')"></div>
+      <div class="infos">
+        <h2>{{token.name}}</h2>
+        <p>
+          Ref: <b>{{tokenId}}-{{unitId}}</b><br>
+          Owner: <b *ngIf="unit.owner != contractAddress">{{unit.owner}}</b><b *ngIf="unit.owner == contractAddress">Not Owned</b><br>
+          Status: <b>{{unit.status}}</b>
+        </p>
+      </div>
+    </div>
+    <div class="btn-box">
+      <button class="btn btn-action">Claim Ownership</button>
+    </div>
+  </div>
+</div>

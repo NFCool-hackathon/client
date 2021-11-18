@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {AuthService} from "./core/auth/auth.service";
 
 @Component({
   selector: 'app-root',
@@ -6,7 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'nfcool-client';
 
-
+  constructor(private authService: AuthService) {
+    this.authService.init();
+  }
 }
