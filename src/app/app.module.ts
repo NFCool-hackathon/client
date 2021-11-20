@@ -15,13 +15,17 @@ import { FormsModule } from '@angular/forms';
 import { firebaseConfig } from '../environments/firebase.config';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireFunctionsModule } from '@angular/fire/compat/functions';
+import { DisplayDangerComponent } from './modals/display-danger/display-danger.component';
+import { DisplaySuccessComponent } from './modals/display-success/display-success.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TokenUnitComponent,
     HomeComponent,
-    PhoneVerificationComponent
+    PhoneVerificationComponent,
+    DisplayDangerComponent,
+    DisplaySuccessComponent
   ],
   imports: [
     BrowserModule,
