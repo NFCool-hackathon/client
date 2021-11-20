@@ -7,15 +7,29 @@ import contractABI from '../../assets/abi/NFCool.json';
 import { TokenModel } from '../models/token.model';
 import { UnitModel } from '../models/unit.model';
 import { AuthStore } from './auth/auth.store';
+import {websocketProvider} from "../../../keys.env";
+import {Subject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SmartContractService {
   private contract = new this.web3.eth.Contract(contractABI.abi, environment.contractAddress);
+  private contractReadable = new this.webSocket3.eth.Contract(contractABI.abi, environment.contractAddress);
+
+  public permissionSubject = new Subject<any>();
+
+  permissionSub: any;
 
   constructor(private web3: Web3,
+              private webSocket3: Web3,
               private authStore: AuthStore) {
+    this.webSocket3.setProvider(websocketProvider);
+    this.authStore.account$.subscribe(account => {
+      if (account && !this.permissionSub) {
+        this.subToOwnershipPermissionGave(account);
+      }
+    });
   }
 
   public async getToken(id: number): Promise<TokenModel> {
@@ -27,7 +41,7 @@ export class SmartContractService {
   }
 
   public async requestPinVerification(tokenId: number, unitId: number, pin: number) {
-    this.subToOwnershipPermissionGave();
+    // this.subToOwnershipPermissionGave();
     return await this.contract.methods.requestPhoneVerification(tokenId.toString(), unitId.toString(), this.authStore.account, pin.toString()).send({ from: this.authStore.account });
   }
 
@@ -39,13 +53,15 @@ export class SmartContractService {
     return await this.contract.methods.haveClaimPermission(tokenId, unitId, this.authStore.account).call();
   }
 
-  private subToOwnershipPermissionGave() {
-    console.log('Sub to OwnershipPermissionGave');
-    this.contract.events.OwnershipPermissionGave().on("data", (event: any) => {
-      const data = event.returnValues;
-      console.log('Event received');
-      console.log(data);
-      // We can access this event's 3 return values on the `event.returnValues` object:
-    }).on("error", console.error);
+  private subToOwnershipPermissionGave(account: string) {
+    console.log('Sub to OwnershipPermissionGave with ' + this.authStore.account);
+    this.permissionSub = this.contractReadable.events.OwnershipPermissionGave({
+    }, (err: any, event: any) => {
+      // console.log(event);
+    }).on('data', (event: any) => {
+      console.log(event); // same results as the optional callback above
+      this.permissionSubject.next(event.returnValues);
+    });
   }
+
 }
