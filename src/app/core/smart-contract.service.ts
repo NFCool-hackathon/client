@@ -32,6 +32,23 @@ export class SmartContractService {
     return await this.contract.methods.tokenData(id).call();
   }
 
+  public async getAllAccountTokens(): Promise<TokenModel[]> {
+    if (!this.authStore.account) {
+      throw 'You need to connect your wallet';
+    }
+    const balances: number[] = await this.contract.methods.allBalancesOf(this.authStore.account).call();
+    const tokens: TokenModel[] = [];
+
+    for (let i = 0 ; i < balances.length ; i++) {
+      if (balances[i] > 0) {
+        const token:TokenModel = await this.getToken(i);
+        tokens.push(token);
+      }
+    }
+
+    return tokens;
+  }
+
   public async getTokenUnit(tokenId: number, unitId: number): Promise<UnitModel> {
     return await this.contract.methods.tokenUnitData(tokenId, unitId).call();
   }

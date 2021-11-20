@@ -1,0 +1,40 @@
+:host {
+  --grid-item-size: 100px;
+}
+.page-full-content {
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.grid {
+  margin: auto;
+  border-radius: 30px;
+
+  width: 95%;
+  max-width: 780px;
+  height: auto;
+  grid-gap: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, var(--grid-item-size));
+
+  .grid-item {
+    width: var(--grid-item-size);
+    height: var(--grid-item-size);
+    border-radius: 15px;
+    background-color: black;
+    transition: 0.4s;
+
+    .grid-image {
+      background-position: center;
+      background-size: cover;
+
+      border-radius: 15px;
+      height: 100%;
+      width: 100%;
+    }
+
+    .grid-image:hover {
+      opacity: 0.6;
+    }
+  }
+}

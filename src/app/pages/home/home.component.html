@@ -1,1 +1,9 @@
-<p>home works!</p>
+<div class="page-full-content">
+  <h1>My tokens</h1>
+  <button class="btn btn-action" (click)="connect()" *ngIf="!account">Connect Wallet</button>
+  <div class="grid">
+    <div class="grid-item" *ngFor="let token of tokens">
+      <div class="grid-image clickable" style="background-image: url('{{token.uri}}')">
+    </div>
+  </div>
+</div>
