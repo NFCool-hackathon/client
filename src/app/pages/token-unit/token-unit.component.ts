@@ -7,6 +7,8 @@ import { ActivatedRoute } from '@angular/router';
 import { SnackbarService } from '../../core/snackbar.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PhoneVerificationComponent } from '../../modals/phone-verification/phone-verification.component';
+import {AuthStore} from "../../core/auth/auth.store";
+import {AuthComponent} from "../../modals/auth/auth.component";
 
 @Component({
   selector: 'app-token-unit',
@@ -22,8 +24,11 @@ export class TokenUnitComponent implements OnInit {
   token: TokenModel = createInitialTokenModel();
   unit: UnitModel = createInitialUnitModel();
 
+  loading: boolean = false;
+
   constructor(private route: ActivatedRoute,
               private smartContract: SmartContractService,
+              private authStore: AuthStore,
               private snackbar: SnackbarService,
               private dialog: MatDialog) { }
 
@@ -58,21 +63,49 @@ export class TokenUnitComponent implements OnInit {
   }
 
   async claimOwnership() {
+    this.loading = true;
+    try {
+      await this.checkAuthState();
+    } catch (e) {
+      console.error(e);
+      this.loading = false;
+      return;
+    }
+
     const havePermission: boolean = await this.smartContract.havePermission(this.tokenId, this.unitId);
     if (havePermission) {
       this.smartContract.claimUnitOwnership(this.tokenId, this.unitId)
         .then(() => {
           this.initTokens();
           this.snackbar.openSuccess("You successfully received ownership of the token");
+          this.loading = false;
         })
         .catch(e => {
           this.snackbar.openDanger("An error has occur, please try again later");
           console.error(e);
+          this.loading = false;
         });
     }
     else {
       this.openModal();
+      this.loading = false;
     }
+  }
+
+  async checkAuthState(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (!this.authStore.account) {
+        this.dialog.open(AuthComponent).afterClosed().subscribe(() => {
+          if (this.authStore.account) {
+            resolve();
+          } else {
+            reject();
+          }
+        })
+      } else {
+        resolve();
+      }
+    });
   }
 
   openModal() {

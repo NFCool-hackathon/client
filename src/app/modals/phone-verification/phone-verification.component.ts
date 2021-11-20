@@ -2,7 +2,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { PhoneVerificationService } from '../../core/phone-verification.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SnackbarService } from '../../core/snackbar.service';
-import { AuthService } from '../../core/auth/auth.service';
 import { SmartContractService } from '../../core/smart-contract.service';
 import {AuthStore} from "../../core/auth/auth.store";
 import {DialogService} from "../../core/dialog.service";
@@ -13,14 +12,13 @@ import {DialogService} from "../../core/dialog.service";
   styleUrls: ['./phone-verification.component.scss']
 })
 export class PhoneVerificationComponent implements OnInit {
-  step: number = 0;
+  step: number = 1;
   pin: number = 0;
 
   loading: boolean = false;
 
   constructor(private verificationService: PhoneVerificationService,
               private snackbar: SnackbarService,
-              private authService: AuthService,
               private authStore: AuthStore,
               private smartContract: SmartContractService,
               private dialogRef: MatDialogRef<PhoneVerificationComponent>,
@@ -30,10 +28,6 @@ export class PhoneVerificationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.authService.isAuth) {
-      this.nextStep();
-    }
-
     this.smartContract.permissionSubject.subscribe(values => {
       console.log('In perm sub');
       console.log(values);
@@ -52,14 +46,6 @@ export class PhoneVerificationComponent implements OnInit {
 
   closeDialog(): void {
     this.dialogRef.close();
-  }
-
-  connect() {
-    this.authService.connectMetamask().then(() => {
-      this.nextStep()
-    }).catch(() => {
-      this.snackbar.openDanger('An error as occur, please try again');
-    });
   }
 
   nextStep() {

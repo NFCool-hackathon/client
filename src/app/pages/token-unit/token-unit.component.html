@@ -11,8 +11,8 @@
         </p>
       </div>
     </div>
-    <div class="btn-box">
-      <button class="btn btn-action" (click)="claimOwnership()">Claim Ownership</button>
+    <div class="btn-box" *ngIf="unit.status == 'sold'">
+      <button class="btn btn-action" [disabled]="loading" (click)="claimOwnership()">Claim Ownership</button>
     </div>
   </div>
 </div>

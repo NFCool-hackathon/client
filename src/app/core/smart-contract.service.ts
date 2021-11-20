@@ -25,11 +25,7 @@ export class SmartContractService {
               private webSocket3: Web3,
               private authStore: AuthStore) {
     this.webSocket3.setProvider(websocketProvider);
-    this.authStore.account$.subscribe(account => {
-      if (account && !this.permissionSub) {
-        this.subToOwnershipPermissionGave(account);
-      }
-    });
+    this.subToOwnershipPermissionGave();
   }
 
   public async getToken(id: number): Promise<TokenModel> {
@@ -53,11 +49,10 @@ export class SmartContractService {
     return await this.contract.methods.haveClaimPermission(tokenId, unitId, this.authStore.account).call();
   }
 
-  private subToOwnershipPermissionGave(account: string) {
+  private subToOwnershipPermissionGave() {
     console.log('Sub to OwnershipPermissionGave with ' + this.authStore.account);
     this.permissionSub = this.contractReadable.events.OwnershipPermissionGave({
-    }, (err: any, event: any) => {
-      // console.log(event);
+    }, () => {
     }).on('data', (event: any) => {
       console.log(event); // same results as the optional callback above
       this.permissionSubject.next(event.returnValues);
