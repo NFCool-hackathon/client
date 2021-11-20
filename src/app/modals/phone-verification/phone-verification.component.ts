@@ -54,7 +54,7 @@ export class PhoneVerificationComponent implements OnInit {
   }
 
   verifyPin() {
-    this.smartContract.claimOwnership(this.data.tokenId, this.data.unitId, this.pin).then(() => {
+    this.smartContract.requestPinVerification(this.data.tokenId, this.data.unitId, this.pin).then(() => {
       this.snackbar.openSuccess('Your claim request has been sent');
     }).catch(e => {
       console.error(e);

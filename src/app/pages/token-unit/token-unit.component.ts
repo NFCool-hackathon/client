@@ -23,7 +23,7 @@ export class TokenUnitComponent implements OnInit {
   unit: UnitModel = createInitialUnitModel();
 
   constructor(private route: ActivatedRoute,
-              private smartcontract: SmartContractService,
+              private smartContract: SmartContractService,
               private snackbar: SnackbarService,
               private dialog: MatDialog) { }
 
@@ -34,8 +34,11 @@ export class TokenUnitComponent implements OnInit {
       this.tokenId = parseInt(tmpTokenId, 10);
       this.unitId = parseInt(tmpUnitId, 10);
     }
+    this.initTokens();
+  }
 
-    this.smartcontract.getToken(this.tokenId).then(res => {
+  initTokens() {
+    this.smartContract.getToken(this.tokenId).then(res => {
       this.token = res as TokenModel;
       console.log(this.token);
     })
@@ -44,7 +47,7 @@ export class TokenUnitComponent implements OnInit {
         this.snackbar.openDanger('An error as occur, please try again later.');
       });
 
-    this.smartcontract.getTokenUnit(this.tokenId, this.unitId).then(res => {
+    this.smartContract.getTokenUnit(this.tokenId, this.unitId).then(res => {
       this.unit = res as UnitModel;
       console.log(this.unit);
     })
@@ -52,6 +55,24 @@ export class TokenUnitComponent implements OnInit {
         console.error(e);
         this.snackbar.openDanger('An error as occur, please try again later.');
       });
+  }
+
+  async claimOwnership() {
+    const havePermission: boolean = await this.smartContract.havePermission(this.tokenId, this.unitId);
+    if (havePermission) {
+      this.smartContract.claimUnitOwnership(this.tokenId, this.unitId)
+        .then(() => {
+          this.initTokens();
+          this.snackbar.openSuccess("You successfully received ownership of the token");
+        })
+        .catch(e => {
+          this.snackbar.openDanger("An error has occur, please try again later");
+          console.error(e);
+        });
+    }
+    else {
+      this.openModal();
+    }
   }
 
   openModal() {
