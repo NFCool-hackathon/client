@@ -17,6 +17,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireFunctionsModule } from '@angular/fire/compat/functions';
 import { DisplayDangerComponent } from './modals/display-danger/display-danger.component';
 import { DisplaySuccessComponent } from './modals/display-success/display-success.component';
+import { AuthComponent } from './modals/auth/auth.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { DisplaySuccessComponent } from './modals/display-success/display-succes
     HomeComponent,
     PhoneVerificationComponent,
     DisplayDangerComponent,
-    DisplaySuccessComponent
+    DisplaySuccessComponent,
+    AuthComponent
   ],
   imports: [
     BrowserModule,
