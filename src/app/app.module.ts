@@ -18,6 +18,9 @@ import { AngularFireFunctionsModule } from '@angular/fire/compat/functions';
 import { DisplayDangerComponent } from './modals/display-danger/display-danger.component';
 import { DisplaySuccessComponent } from './modals/display-success/display-success.component';
 import { AuthComponent } from './modals/auth/auth.component';
+import { FourOFourComponent } from './pages/commom/four-o-four/four-o-four.component';
+import {CommonModule} from "@angular/common";
+import { TransferTokenComponent } from './modals/transfer-token/transfer-token.component';
 
 @NgModule({
   declarations: [
@@ -27,11 +30,14 @@ import { AuthComponent } from './modals/auth/auth.component';
     PhoneVerificationComponent,
     DisplayDangerComponent,
     DisplaySuccessComponent,
-    AuthComponent
+    AuthComponent,
+    FourOFourComponent,
+    TransferTokenComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    CommonModule,
     MatSnackBarModule,
     MatDialogModule,
     BrowserAnimationsModule,

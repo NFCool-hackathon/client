@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { createInitialTokenModel, TokenModel } from '../../models/token.model';
 import { createInitialUnitModel, UnitModel } from '../../models/unit.model';
@@ -9,15 +9,19 @@ import { MatDialog } from '@angular/material/dialog';
 import { PhoneVerificationComponent } from '../../modals/phone-verification/phone-verification.component';
 import {AuthStore} from "../../core/auth/auth.store";
 import {AuthComponent} from "../../modals/auth/auth.component";
+import {Subscription} from "rxjs";
+import {TransferTokenComponent} from "../../modals/transfer-token/transfer-token.component";
+import {AuthService} from "../../core/auth/auth.service";
 
 @Component({
   selector: 'app-token-unit',
   templateUrl: './token-unit.component.html',
   styleUrls: ['./token-unit.component.scss']
 })
-export class TokenUnitComponent implements OnInit {
+export class TokenUnitComponent implements OnInit, OnDestroy {
   tokenId: number = 0;
   unitId: number = 0;
+  account: string = '';
 
   contractAddress = environment.contractAddress;
 
@@ -25,12 +29,14 @@ export class TokenUnitComponent implements OnInit {
   unit: UnitModel = createInitialUnitModel();
 
   loading: boolean = false;
+  accountSub: Subscription | undefined;
 
   constructor(private route: ActivatedRoute,
               private smartContract: SmartContractService,
               private authStore: AuthStore,
               private snackbar: SnackbarService,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private authService: AuthService) { }
 
   ngOnInit() {
     const tmpTokenId: string | null = this.route.snapshot.paramMap.get('tokenId');
@@ -40,6 +46,14 @@ export class TokenUnitComponent implements OnInit {
       this.unitId = parseInt(tmpUnitId, 10);
     }
     this.initTokens();
+
+    this.accountSub = this.authStore.account$.subscribe(account => {
+      this.account = account;
+    })
+  }
+
+  ngOnDestroy() {
+    this.accountSub?.unsubscribe();
   }
 
   initTokens() {
@@ -110,5 +124,19 @@ export class TokenUnitComponent implements OnInit {
 
   openModal() {
     this.dialog.open(PhoneVerificationComponent, { data: { tokenId: this.tokenId, unitId: this.unitId } });
+  }
+
+  openTransferModal() {
+    this.dialog.open(TransferTokenComponent, { data: { tokenId: this.tokenId, unitId: this.unitId }});
+  }
+
+  connectWallet() {
+    this.loading = true;
+    this.authService.connectMetamask().then(() => {
+      this.loading = false;
+    }).catch(() => {
+      this.snackbar.openDanger('An error as occur, please try again');
+      this.loading = false;
+    });
   }
 }
