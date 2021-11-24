@@ -21,6 +21,8 @@ import { AuthComponent } from './modals/auth/auth.component';
 import { FourOFourComponent } from './pages/commom/four-o-four/four-o-four.component';
 import {CommonModule} from "@angular/common";
 import { TransferTokenComponent } from './modals/transfer-token/transfer-token.component';
+import { LoadingComponent } from './modals/loading/loading.component';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import { TransferTokenComponent } from './modals/transfer-token/transfer-token.c
     DisplaySuccessComponent,
     AuthComponent,
     FourOFourComponent,
-    TransferTokenComponent
+    TransferTokenComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,8 @@ import { TransferTokenComponent } from './modals/transfer-token/transfer-token.c
     A11yModule,
     FormsModule,
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFireFunctionsModule
+    AngularFireFunctionsModule,
+    MatProgressSpinnerModule
   ],
   providers: [Web3],
   bootstrap: [AppComponent]

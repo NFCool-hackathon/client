@@ -12,9 +12,10 @@
       </div>
     </div>
     <div class="btn-box">
-      <button class="btn btn-action" [disabled]="loading" (click)="claimOwnership()" *ngIf="unit.status == 'sold'">Claim Ownership</button>
-      <button class="btn btn-action" [disabled]="loading" (click)="connectWallet()" *ngIf="unit.status != 'sold' && !account">Connect Wallet</button>
-      <button class="btn btn-action" [disabled]="loading" (click)="openTransferModal()" *ngIf="unit.owner == account">Transfer token</button>
+      <button class="btn btn-action" (click)="claimOwnership()" *ngIf="unit.status == 'sold'">Claim Ownership</button>
+      <button class="btn btn-action" (click)="connectWallet()" *ngIf="unit.status != 'sold' && !account">Connect Wallet</button>
+      <button class="btn btn-action" (click)="openTransferModal()" *ngIf="unit.owner == account">Transfer token</button>
+      <button class="btn btn-action" (click)="itemStolen()" *ngIf="unit.owner == account">Item stolen</button>
     </div>
   </div>
 </div>

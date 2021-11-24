@@ -1,4 +1,4 @@
 <label for="to">Address to send</label>
-<input class="input" type="text" [disabled]="loading" [(ngModel)]="to" name="to" id="to">
-<button class="btn btn-action" [disabled]="loading" (click)="transferToken()">Transfer token</button>
+<input class="input" type="text" [(ngModel)]="to" name="to" id="to">
+<button class="btn btn-action" (click)="transferToken()">Transfer token</button>
 

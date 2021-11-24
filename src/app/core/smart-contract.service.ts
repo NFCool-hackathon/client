@@ -70,6 +70,10 @@ export class SmartContractService {
     return await this.contract.methods.safeUnitTransferFrom(this.authStore.account, to, tokenId, unitId, this.web3.utils.fromAscii('')).send({from: this.authStore.account});
   }
 
+  public async setStatusAsStolen(tokenId: number, unitId: number): Promise<void> {
+    return await this.contract.methods.unitStolen(tokenId, unitId).send({from: this.authStore.account});
+  }
+
   private subToOwnershipPermissionGave() {
     console.log('Sub to OwnershipPermissionGave with ' + this.authStore.account);
     this.permissionSub = this.contractReadable.events.OwnershipPermissionGave({

@@ -12,6 +12,7 @@ import {AuthComponent} from "../../modals/auth/auth.component";
 import {Subscription} from "rxjs";
 import {TransferTokenComponent} from "../../modals/transfer-token/transfer-token.component";
 import {AuthService} from "../../core/auth/auth.service";
+import {LoadingService} from "../../core/loading.service";
 
 @Component({
   selector: 'app-token-unit',
@@ -28,7 +29,6 @@ export class TokenUnitComponent implements OnInit, OnDestroy {
   token: TokenModel = createInitialTokenModel();
   unit: UnitModel = createInitialUnitModel();
 
-  loading: boolean = false;
   accountSub: Subscription | undefined;
 
   constructor(private route: ActivatedRoute,
@@ -36,6 +36,7 @@ export class TokenUnitComponent implements OnInit, OnDestroy {
               private authStore: AuthStore,
               private snackbar: SnackbarService,
               private dialog: MatDialog,
+              private loadingService: LoadingService,
               private authService: AuthService) { }
 
   ngOnInit() {
@@ -77,12 +78,12 @@ export class TokenUnitComponent implements OnInit, OnDestroy {
   }
 
   async claimOwnership() {
-    this.loading = true;
+    this.loadingService.startLoading();
     try {
       await this.checkAuthState();
     } catch (e) {
       console.error(e);
-      this.loading = false;
+      this.loadingService.stopLoading();
       return;
     }
 
@@ -92,17 +93,17 @@ export class TokenUnitComponent implements OnInit, OnDestroy {
         .then(() => {
           this.initTokens();
           this.snackbar.openSuccess("You successfully received ownership of the token");
-          this.loading = false;
+          this.loadingService.stopLoading();
         })
         .catch(e => {
           this.snackbar.openDanger("An error has occur, please try again later");
           console.error(e);
-          this.loading = false;
+          this.loadingService.stopLoading();
         });
     }
     else {
       this.openModal();
-      this.loading = false;
+      this.loadingService.stopLoading();
     }
   }
 
@@ -127,16 +128,30 @@ export class TokenUnitComponent implements OnInit, OnDestroy {
   }
 
   openTransferModal() {
-    this.dialog.open(TransferTokenComponent, { data: { tokenId: this.tokenId, unitId: this.unitId }});
+    this.dialog.open(TransferTokenComponent, { data: { tokenId: this.tokenId, unitId: this.unitId }}).afterClosed().subscribe(() => {
+      this.initTokens();
+    });
   }
 
   connectWallet() {
-    this.loading = true;
+    this.loadingService.startLoading();
     this.authService.connectMetamask().then(() => {
-      this.loading = false;
+      this.loadingService.stopLoading();
     }).catch(() => {
       this.snackbar.openDanger('An error as occur, please try again');
-      this.loading = false;
+      this.loadingService.stopLoading();
     });
+  }
+
+  itemStolen() {
+    this.loadingService.startLoading();
+    this.smartContract.setStatusAsStolen(this.tokenId, this.unitId).then(() => {
+      this.loadingService.stopLoading();
+      this.snackbar.openSuccess("Token successfully set as 'stolen'");
+    }).catch(e => {
+      this.loadingService.stopLoading();
+      console.error(e);
+      this.snackbar.openDanger(e.message);
+    })
   }
 }
