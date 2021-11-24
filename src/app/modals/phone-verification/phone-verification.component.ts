@@ -30,7 +30,7 @@ export class PhoneVerificationComponent implements OnInit {
   ngOnInit(): void {
     this.smartContract.permissionSubject.subscribe(values => {
       console.log(values);
-      if (values.to == this.authStore.account) {
+      if (values.to.toUpperCase() == this.authStore.account.toUpperCase()) {
         if (values.valid as boolean) {
           this.closeDialog();
           this.dialogService.openSuccess('Verification done', 'You can now claim your token');
@@ -39,6 +39,7 @@ export class PhoneVerificationComponent implements OnInit {
           this.closeDialog();
           this.dialogService.openSuccess('Verification failed', '');
         }
+        this.loadingService.stopLoading();
       }
     });
   }

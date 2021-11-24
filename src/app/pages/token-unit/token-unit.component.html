@@ -6,7 +6,7 @@
         <h2>{{brandName}} - {{token.name}}</h2>
         <p>
           Ref: <b>{{tokenId}}-{{unitId}}</b><br>
-          Owner: <b *ngIf="unit.owner != contractAddress">{{unit.owner}}</b><b *ngIf="unit.owner == contractAddress">Not Owned</b><br>
+          Owner: <b style="font-size: 0.7em" *ngIf="unit.owner != contractAddress">{{unit.owner}}</b><b *ngIf="unit.owner == contractAddress">Not Owned</b><br>
           Status: <b>{{unit.status}}</b>
         </p>
       </div>
@@ -14,8 +14,8 @@
     <div class="btn-box">
       <button class="btn btn-action" (click)="claimOwnership()" *ngIf="unit.status == 'sold'">Claim Ownership</button>
       <button class="btn btn-action" (click)="connectWallet()" *ngIf="unit.status != 'sold' && !account">Connect Wallet</button>
-      <button class="btn btn-action" (click)="openTransferModal()" *ngIf="unit.owner == account">Transfer token</button>
-      <button class="btn btn-action" (click)="itemStolen()" *ngIf="unit.owner == account">Item stolen</button>
+      <button class="btn btn-action" (click)="openTransferModal()" *ngIf="unit.owner.toUpperCase() == account.toUpperCase()">Transfer token</button>
+      <button class="btn btn-action" (click)="itemStolen()" *ngIf="account.toUpperCase() == unit.owner.toUpperCase()">Item stolen</button>
     </div>
   </div>
 </div>
