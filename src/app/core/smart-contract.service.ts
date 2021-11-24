@@ -84,4 +84,7 @@ export class SmartContractService {
     });
   }
 
+  public async getBrandName(): Promise<string> {
+    return await this.contract.methods.getBrandName().call();
+  }
 }

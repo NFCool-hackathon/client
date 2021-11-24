@@ -28,6 +28,7 @@ export class TokenUnitComponent implements OnInit, OnDestroy {
 
   token: TokenModel = createInitialTokenModel();
   unit: UnitModel = createInitialUnitModel();
+  brandName = "";
 
   accountSub: Subscription | undefined;
 
@@ -47,6 +48,10 @@ export class TokenUnitComponent implements OnInit, OnDestroy {
       this.unitId = parseInt(tmpUnitId, 10);
     }
     this.initTokens();
+
+    this.smartContract.getBrandName().then(name => {
+      this.brandName = name;
+    });
 
     this.accountSub = this.authStore.account$.subscribe(account => {
       this.account = account;
