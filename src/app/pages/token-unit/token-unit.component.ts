@@ -22,7 +22,7 @@ import {LoadingService} from "../../core/loading.service";
 export class TokenUnitComponent implements OnInit, OnDestroy {
   tokenId: number = 0;
   unitId: number = 0;
-  account: string = '';
+  account: string = this.authStore.account;
 
   contractAddress = environment.contractAddress;
 
