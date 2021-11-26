@@ -3,7 +3,7 @@
 }
 .page-full-content {
   box-sizing: border-box;
-  background-color: var(--color-bg-really-lighter);
+  background-color: var(--color-bg-layer1);
 }
 
 .padd {
@@ -14,8 +14,10 @@
 }
 
 .grid {
+  background-color: var(--color-bg-layer2);
   margin: auto;
-  border-radius: 30px;
+  padding: 20px;
+  border-radius: 20px;
 
   width: 95%;
   max-width: 780px;
