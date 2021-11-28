@@ -1,6 +1,38 @@
 # NfcoolClient
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.12.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.12. It provides a client interface to:
+- Display all the account items
+- Claim ownership
+- Transfer Token
+- Update token status
+
+## Install the project
+
+1. Clone or fork the project
+2. Run `npm install`
+3. In the root folder, create a file named `keys.env.ts`
+4. In this file, add the following information:
+```
+export const websocketProvider = YOUR_INFURA_WEBSOCKET_PROVIDER;
+```
+5. Go in the following file `node_modules/@angular-devkit/build-angular/src/webpack/configs/browser.js` and add the following code under the `resolve` variable:
+```
+fallback:{
+  http: require.resolve("stream-http"),
+  https: require.resolve("https-browserify"),
+  crypto: require.resolve("crypto-browserify"),
+  stream:require.resolve("stream-browserify"),
+  os:require.resolve("os-browserify/browser"),
+  assert:require.resolve("assert/"),
+}
+```
+6. Go into `src/environments` and create a file name `firebase.config.ts` and write inside:
+```
+export const firebaseConfig = {
+  // Add Firebase Config here
+};
+```
+7. Into the environment files, change de the contract addresses
 
 ## Development server
 
