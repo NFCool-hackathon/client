@@ -57,7 +57,7 @@ export class PhoneVerificationComponent implements OnInit {
     this.verificationService.sendVerificationSms(this.data.tokenId, this.data.unitId).then(() => {
       this.snackbar.openSuccess('The sms has been sent');
       this.nextStep();
-      this.loadingService.startLoading();
+      this.loadingService.stopLoading();
     }).catch(e => {
       console.error(e);
       this.snackbar.openDanger('An error as occur, please try again later');
