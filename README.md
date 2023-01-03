@@ -1,5 +1,7 @@
 # NfcoolClient
 
+Client repository for the Chainlink hackathon submission NFCool: https://devpost.com/software/nfc-for-real-goods 
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.12. It provides a client interface to:
 - Display all the account items
 - Claim ownership
